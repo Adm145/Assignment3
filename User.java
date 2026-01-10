@@ -10,4 +10,20 @@ public class User {
         this.phoneNo = phoneNo;
         this.isRealtor = isRealtor;
     }
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public String getPassword() {
+        return this.password;
+    }
+
+    public String getPhoneNo() {
+        return this.phoneNo;
+    }
+
+    public boolean getIsRealtor() {
+        return this.isRealtor;
+    }
 }
