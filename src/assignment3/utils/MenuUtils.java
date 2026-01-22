@@ -75,14 +75,17 @@ public class MenuUtils {
                     System.out.println("Please ensure you meet all the requirements and try again.");
                 }
             } else if (userChoice == 2) {
-                //todo remove property advertisement
                 app.removeProperty(loggedUser, input);
+                validInput = true;
             } else if (userChoice == 3) {
                 app.printAllProperties();
+                validInput = true;
             } else if (userChoice == 4) {
                 app.printPropertiesByUser(loggedUser);
+                validInput = true;
             } else if (userChoice == 5) {
                 app.search(input);
+                validInput = true;
             } else if (userChoice == 6) {
                 //! log out and return to main menu
             } else {
