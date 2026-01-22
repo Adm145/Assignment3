@@ -16,12 +16,18 @@ public class MenuUtils {
             if (choice == 1) {
                 if (app.createUser(input)) {
                     System.out.println("User created successfully.");
-                    System.out.println("Would you like to log in to your new account? (true/false).");
-                    boolean loginNow = input.nextBoolean();
-                    if (loginNow) {
-                        loginUser(input, app);
-                    } else {
-                        System.out.println("Returning to main menu.");
+                    System.out.println("Would you like to log in to your new account? (t/f).");
+                    boolean validInput = false;
+                    while (!validInput) {
+                        String loginNow = input.next();
+                        if (loginNow.equalsIgnoreCase("t")) {
+                            loginUser(input, app);
+                            validInput = true;
+                        } else if (loginNow.equalsIgnoreCase("f")) {
+                            validInput = true;
+                        } else {
+                            System.out.println("Invalid input. Please enter 't' or 'f'.");
+                        }
                     }
                 }
             } else if (choice == 2) {
@@ -56,23 +62,31 @@ public class MenuUtils {
             "6 - Log out and return to main menu" + "\n" +
             "Enter your choice (1-6):"
         );
-        boolean validChoice = false;
-        for (;!validChoice;) {
-            int choice = input.nextInt();
-            if (choice == 1) {
+        boolean validInput = false;
+        for (;!validInput;) {
+            int userChoice = input.nextInt();
+            if (userChoice == 1) {
                 boolean result = app.postNewProperty(loggedUser ,input);
-            } else if (choice == 2) {
-                //remove property advertisement
-            } else if (choice == 3) {
-                //display all properties
-            } else if (choice == 4) {
-                //display all properties advertised my logged in user
-            } else if (choice == 5) {
-                //filter properties by parameters
-            } else if (choice == 6) {
-                //log out and return to main menu
+                if (result) {
+                    System.out.println("\nProperty advertised successfully by : " + loggedUser.getUserName());
+                    validInput = true;
+                } else {
+                    System.out.println("\nFailed to advertise property.");
+                    System.out.println("Please ensure you meet all the requirements and try again.");
+                }
+            } else if (userChoice == 2) {
+                //todo remove property advertisement
+                app.removeProperty(loggedUser, input);
+            } else if (userChoice == 3) {
+                app.printAllProperties();
+            } else if (userChoice == 4) {
+                app.printPropertiesByUser(loggedUser);
+            } else if (userChoice == 5) {
+                app.search(input);
+            } else if (userChoice == 6) {
+                //! log out and return to main menu
             } else {
-                System.out.println("Invalid choice. Please enter 1, 2, 3, 4, or 5.");
+                System.out.println("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.");
             }
         }
     }   

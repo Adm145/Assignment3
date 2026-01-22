@@ -12,7 +12,6 @@ public class PasswordValidatorUtils {
             passwordValid = isPasswordValid(password);
             if (!passwordValid) {
                 System.out.println("Password must be at least 5 characters long, contain at least one digit, and contain at least one special character ($, %, _).");
-                System.out.println("Please enter a valid password:");
             } else {
                 break;
             }

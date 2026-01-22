@@ -4,7 +4,7 @@ public class User {
     private String password;
     private String phoneNo;
     private boolean isRealtor;
-    private Property[] advertisedProperties;
+    private int advertisedProperties;
     private int adLimit;
 
     public User(String userName, String password, String phoneNo, boolean isRealtor) {
@@ -12,7 +12,7 @@ public class User {
         this.password = password;
         this.phoneNo = phoneNo;
         this.isRealtor = isRealtor;
-        this.advertisedProperties = new Property[0];
+        this.advertisedProperties = 0;
         if (isRealtor) {
             this.adLimit = 5;
         } else {
@@ -36,11 +36,14 @@ public class User {
         return this.isRealtor;
     }
 
-    public Property[] getAdvertisedProperties() {
+    public int getAdvertisedProperties() {
         return this.advertisedProperties;
+    }
+    public void incrementAdvertisedProperties() {
+        this.advertisedProperties++;
     }
 
     public boolean canAdvertiseMore() {
-        return this.advertisedProperties.length < this.adLimit;
+        return this.advertisedProperties < this.adLimit;
     }
 }

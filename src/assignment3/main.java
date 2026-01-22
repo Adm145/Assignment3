@@ -7,6 +7,8 @@ public class main {
         RealEstate app = new RealEstate();
         Scanner input = new Scanner(System.in);
         launchApp(app, input);
+
+        input.close();
     }
 
     public static void launchApp(RealEstate app, Scanner input) {

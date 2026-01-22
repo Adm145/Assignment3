@@ -2,18 +2,17 @@ package assignment3.utils;
 import java.util.Scanner;
 
 import assignment3.City;
-import assignment3.RealEstate;
 import assignment3.User;
 import assignment3.Property;
 
 public class NewPropertyUtils {
     
-    public static boolean addNewProperty(User user, Scanner input, City[] cities , Property[] properties) {
+    public static Property createNewProperty(User loggedUser, Scanner input, City[] cities) {
         //checks if user can advertise more properties
-        boolean canUserAdvertise = user.canAdvertiseMore();
+        boolean canUserAdvertise = loggedUser.canAdvertiseMore();
         if (!canUserAdvertise) {
             System.out.println("You have reached your advertisement limit and cannot post more properties.");
-            return false;
+            return null;
         }
         //property stats
         String cityName = cityHandler(input,cities);
@@ -27,19 +26,13 @@ public class NewPropertyUtils {
         int propertyPrice = numberedValuesHandler(input, "price");
         boolean propertyStatus = propertyStatusHandler(input);
         int propertyNumber = numberedValuesHandler(input, "house number");
+
+        //incrementing user's advertised properties count
+        loggedUser.incrementAdvertisedProperties();
+
         //creating new property
-        Property newProperty = new Property(cityName, streetName, amountOfRooms, propertyPrice, propertyType, propertyStatus, propertyNumber, propertyFloor, user);
-        
-        //! ADD NEW PROPERTY TO PROPERTY ARRAY IN REALESTATE
-        //adding property to the properties array
-        // Property[] temp  = new Property[properties.length + 1];
-        // for (int i = 0; i < properties.length; i++) {
-        //     temp[i] = properties[i];
-        // }
-        // temp[properties.length] = newProperty;
-
-
-        return true;
+        Property newProperty = new Property(cityName, streetName, amountOfRooms, propertyPrice, propertyType, propertyStatus, propertyNumber, propertyFloor, loggedUser);
+        return newProperty;
     }
 
     private static String[] getCityStreets(City[] cities, String cityName) {
@@ -109,9 +102,9 @@ public class NewPropertyUtils {
     private static String propertyTypeHandler(Scanner input) {
         System.out.println("Please choose the property type:");
         System.out.println("1 - for an apartment, 2 - for a penthouse or 3 - for a private house");
-        int propertyTypeValue = input.nextInt();
         boolean validValue = false;
         while (!validValue) {
+            int propertyTypeValue = input.nextInt();
             if (propertyTypeValue == 1) {
                 validValue = true;
                 return "Apartment";
@@ -123,7 +116,6 @@ public class NewPropertyUtils {
                 return "Private House";
             } else {
                 System.out.println("Invalid choice. Please enter 1, 2, or 3.");
-                propertyTypeValue = input.nextInt();
             }
         }
         return "";
@@ -131,27 +123,35 @@ public class NewPropertyUtils {
 
     private static int numberedValuesHandler(Scanner input, String parameterName) {
         System.out.println("Please enter the " + parameterName + " of the property:");
-        int parameterValue = input.nextInt();
-        while (parameterValue < 0) {
-            System.out.println("Invalid " + parameterName + ". Please enter a valid value:");
-            parameterValue = input.nextInt();
+        boolean validInput = false;
+        while (!validInput) {
+            int parameterValue = input.nextInt();
+            if (parameterValue > 0) {
+                validInput = true;
+                return parameterValue;
+            } else {
+                System.out.println("Invalid input. Please enter a valid number for the " + parameterName + ".");
+            }
         }
-        return parameterValue;
+        return 0;
     }
 
     private static boolean propertyStatusHandler(Scanner input) {
         System.out.println("Is the property for sale or rent? (s/r)");
-        String statusInput = input.next();
         boolean validInput = false;
         while (!validInput) {
+            String statusInput = input.next();
             if (statusInput.equalsIgnoreCase("s")) {
                 validInput = true;
                 return false;
             } else if (statusInput.equalsIgnoreCase("r")) {
                 validInput = true;
-                return true;
+                continue;
+            }
+            if (!validInput) {
+                System.out.println("Invalid input. Please enter 's' for sell or 'r' for rent.");
             }
         }
-        return false;
+        return true;
     }
 }

@@ -4,7 +4,10 @@ import java.util.Scanner;
 import assignment3.utils.PasswordValidatorUtils;
 import assignment3.utils.PhoneNoValidatorUtils;
 import assignment3.utils.UsernameAvailabilityValidator;
+import assignment3.utils.UserTypeChoiceUtils;
 import assignment3.utils.NewPropertyUtils;
+import assignment3.utils.RemovePropertyUtils;
+import assignment3.utils.SearchPropertyUtil;
 
 public class RealEstate {
     private Property[] properties;
@@ -17,6 +20,7 @@ public class RealEstate {
         this.cities = new City[10];
 
         setCities();
+        setInitialUser();
     }
 
     private void setCities() {
@@ -32,6 +36,13 @@ public class RealEstate {
         this.cities[9] = new City("Acre", "North", new String[]{"David Noy St", "HaAtsmaut St", "Ben Ami St"});
     }
 
+    private void setInitialUser() {
+        User newUser = new User("adm145", "123456!", "0536205634", true);
+        setUserToUsersArray(newUser);
+    }
+
+    //! private void setInitialProperties() {}
+
     public String[] getCitiesNames() {
         String[] cityNames = new String[this.cities.length];
         for (int i = 0; i < this.cities.length; i++) {
@@ -44,18 +55,20 @@ public class RealEstate {
         String userName = UsernameAvailabilityValidator.setUserName(input, this.users);
         String password = PasswordValidatorUtils.setPassword(input);
         String phoneNo = PhoneNoValidatorUtils.setPhoneNo(input);
-
-        System.out.println("Would you like to register as a realtor? (true/false)");
-        boolean isRealtor = input.nextBoolean();
-
+        boolean isRealtor = UserTypeChoiceUtils.setIsRealtor(input);
+        //new user creation
+        User newUser = new User(userName, password, phoneNo, isRealtor);
+        setUserToUsersArray(newUser);
+        return true;
+    }
+    
+    private void setUserToUsersArray(User newUser) {
         User[] temp = new User[this.users.length + 1];
         for (int i = 0; i < this.users.length; i++) {
             temp[i] = this.users[i];
         }
-        User u = new User(userName, password, phoneNo, isRealtor);
-        temp[this.users.length] = u;
+        temp[this.users.length] = newUser;
         this.users = temp;
-        return true;
     }
 
     public User userLogin(Scanner input) {
@@ -64,14 +77,85 @@ public class RealEstate {
         System.out.println("Enter password:");
         String password = input.next();
         for (int i = 0; i < this.users.length; i++) {
-            if (users[i].getUserName().equals(userName) && users[i].getPassword().equals(password)) {
+            if (this.users[i].getUserName().equals(userName) && this.users[i].getPassword().equals(password)) {
                 return users[i];
             }
         }
         return null;
     }
 
-    public boolean postNewProperty(User user, Scanner input) {
-        return NewPropertyUtils.addNewProperty(user, input, this.cities, this.properties);
-    } 
+    public boolean postNewProperty(User loggedUser, Scanner input) {
+        Property newProperty = NewPropertyUtils.createNewProperty(loggedUser, input, this.cities);
+        if (newProperty == null) {
+            return false;
+        }
+        setPropertyToPropertiesArray(newProperty);
+        return true;
+    }
+
+    private void setPropertyToPropertiesArray(Property newProperty) {
+        Property[] temp  = new Property[this.properties.length + 1];
+        for (int i = 0; i < this.properties.length; i++) {
+            temp[i] = this.properties[i];
+        }
+        temp[this.properties.length] = newProperty;
+        this.properties = temp;
+    }
+
+    public void removeProperty(User loggedUser, Scanner input) {
+        if (loggedUser.getAdvertisedProperties() == 0) {
+            System.out.println("\nYou have no advertised properties to remove.");
+            return;
+        }
+        Property[] propertiesByUser = getPropertiesPostedByUser(loggedUser);
+        int propertyToRemove = RemovePropertyUtils.removeProperty(propertiesByUser, input, this.properties);
+        removePropertyFromPropertiesArray(propertyToRemove);
+    }
+
+    private Property[] getPropertiesPostedByUser(User loggedUser) {
+        int count = 0;
+        for (int i = 0; i < this.properties.length; i++) {
+            if (this.properties[i].getPropertyPoster().equals(loggedUser.getUserName())) {
+                count++;
+            }
+        }
+        int internalCount = 0;
+        Property[] propertiesByUser = new Property[count];
+        for (int i = 0; i < properties.length; i++) {
+            if (properties[i].getPropertyPoster().equals(loggedUser.getUserName())) {
+                propertiesByUser[internalCount] = properties[i];
+                internalCount++;
+            }
+        }
+        return propertiesByUser;
+    }
+
+    private void removePropertyFromPropertiesArray(int propertyToRemove) {
+        Property[] temp = new Property[this.properties.length - 1];
+        int index = 0;
+        for (int i = 0; i < this.properties.length; i++) {
+            int currentPropertyId = this.properties[i].getPropertyId();
+            if (currentPropertyId != propertyToRemove) {
+                temp[index] = this.properties[i];
+                index++;
+            }
+        }
+        this.properties = temp;
+    }
+
+    public void printAllProperties() {
+        for (int i = 0; i < this.properties.length; i++) {
+            System.out.println(this.properties[i].toString() + "\n");
+        }
+    }
+
+    public void printPropertiesByUser(User loggedUser) {
+        Property[] propertiesByUser = getPropertiesPostedByUser(loggedUser);
+        RemovePropertyUtils.printPropertiesArray(propertiesByUser);
+    }
+
+    public void search(Scanner Input) {
+        System.out.println("Please fill out the following search queries to find the best fit for you:");
+        SearchPropertyUtil.searchHandler(Input, properties);
+    }
 }
