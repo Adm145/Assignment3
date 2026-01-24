@@ -19,30 +19,31 @@ public class User {
             this.adLimit = 2;
         }
     }
-
+    //O(1)
     public String getUserName() {
         return this.userName;
     }
-
+    //O(1)
     public String getPassword() {
         return this.password;
     }
-
+    //O(1)
     public String getPhoneNo() {
         return this.phoneNo;
     }
-
+    //O(1)
     public boolean getIsRealtor() {
         return this.isRealtor;
     }
-
+    //O(1)
     public int getAdvertisedProperties() {
         return this.advertisedProperties;
     }
+    //O(1)
     public void incrementAdvertisedProperties() {
         this.advertisedProperties++;
     }
-
+    //O(1)
     public boolean canAdvertiseMore() {
         return this.advertisedProperties < this.adLimit;
     }

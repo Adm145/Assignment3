@@ -4,6 +4,7 @@ import java.util.Scanner;
 import assignment3.Property;
 
 public class RemovePropertyUtils {
+    //O(n * k)
     public static int removeProperty(Property[] propertiesByUser, Scanner input, Property[] properties) {
         printPropertiesArray(propertiesByUser);
 
@@ -22,13 +23,13 @@ public class RemovePropertyUtils {
         }
         return propertyNumberToRemove;
     }
-
+    //O(n)
     public static void printPropertiesArray(Property[] propertiesList) {
         for (int i = 0; i < propertiesList.length; i++) {
-            System.out.println(propertiesList[i].getPropertyId() + ").\n" + propertiesList[i].toString() + "\n");
+            System.out.println("\n" + propertiesList[i].getPropertyId() + ")." + propertiesList[i].toString());
         }
     } 
-
+    //O(n)
     private static boolean isValidPropertyNumber(int propertyNumber, Property[] propertiesByUser) {
         for (int i = 0; i < propertiesByUser.length; i++) {
             if (propertiesByUser[i].getPropertyId() == propertyNumber) {

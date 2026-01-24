@@ -9,15 +9,15 @@ public class City {
         this.county = county;
         this.streetList = streetList;
     }
-
+    //O(1)
     public String[] getStreets() {
         return this.streetList;
     }
-
+    //O(1)
     public String getCityName() {
         return this.cityName;
     }
-
+    //O(1)
     public String[] getStreetList() {
         return this.streetList;
     }

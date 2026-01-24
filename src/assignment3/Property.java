@@ -28,15 +28,15 @@ public class Property {
         this.houseNumber = houseNumber;
         this.userPosted = userPosted;
     }
-    
+    //O(1)
     public String getPropertyPoster() {
         return this.userPosted.getUserName();
     }
-
+    //O(1)
     public int getPropertyId() {
         return this.id;
     }
-
+    //O(1)
     public String getPropertyStatus() {
         if (this.isForRent) {
             return "Rent";
@@ -44,30 +44,45 @@ public class Property {
             return "Sale";
         }
     }
-
+    //O(1)
     public String getPropertyType() {
         return this.propertyType;
     }
-
+    //O(1)
     public int getAmountOfRooms() {
         return amountOfRooms;
     }
-
+    //O(1)
     public int getPrice() {
         return this.price;
     }
+    //O(n)
+    private String getPriceFormat() {
+        String price = this.price + "";
+        String formattedPrice = "";
+        int count = 0;
+        for (int i = price.length() - 1; i >= 0; i--) {
+            formattedPrice = price.charAt(i) + formattedPrice;
+            count++;
 
+            if (count % 3 == 0) {
+                formattedPrice = "," + formattedPrice;
+            }
+        }
+        return formattedPrice;
+    }
+    //O(1)
     private String userTypeText() {
         if (this.userPosted.getIsRealtor()) {
             return "(real estate broker)";
         }
         return "(not a real estate broker)";
     }
-
-
+    //O(1)
     public String toString() {
-        return this.city + " - " + this.street + " " + this.houseNumber + ".\n" +
-               "A nice " + this.propertyType + " - for" + this.getPropertyStatus() + ": " + this.amountOfRooms + " rooms, " + "floor " + this.floor + ".\n" +
-               "Contact Info: " + this.userPosted.getUserName() + this.userPosted.getPhoneNo() + this.userTypeText();
+        return "\n" + this.city + " - " + this.street + " " + this.houseNumber + ".\n" +
+               "Price: " + getPriceFormat() + "$\n" +
+               "A nice " + this.propertyType + " - for " + this.getPropertyStatus() + ": " + this.amountOfRooms + " rooms, " + "floor " + this.floor + ".\n" +
+               "Contact Info: " + this.userPosted.getUserName()+ " " + this.userPosted.getPhoneNo() + " " + this.userTypeText() + ".\n";
     }
 }

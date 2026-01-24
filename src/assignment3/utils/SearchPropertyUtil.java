@@ -4,21 +4,21 @@ import java.util.Scanner;
 import assignment3.Property;
 
 public class SearchPropertyUtil {
-
+    //O(n^3)
     public static void searchHandler(Scanner Input, Property[] properties) {
-        String propertyStatusQuery = SearchPropertyUtil.getPropertyStatusQuery(Input);
-        String propertyTypeQuery = SearchPropertyUtil.getPropertyTypeQuery(Input);
-        int roomAmountQuery = SearchPropertyUtil.getRoomAmountQuery(Input);
+        String propertyStatusQuery = getPropertyStatusQuery(Input);
+        String propertyTypeQuery = getPropertyTypeQuery(Input);
+        int roomAmountQuery = getRoomAmountQuery(Input);
 
         System.out.println("Please enter your maximum price?");
-        int maxPriceQuery = SearchPropertyUtil.getPriceQuery(Input);
+        int maxPriceQuery = getPriceQuery(Input);
         System.out.println("Please enter your minimum price?");
-        int minPriceQuery = SearchPropertyUtil.getPriceQuery(Input);
+        int minPriceQuery = getPriceQuery(Input);
         Property[] filteredPropertyList =  filteredList(properties, propertyStatusQuery, propertyTypeQuery, roomAmountQuery, maxPriceQuery, minPriceQuery);
         
-        RemovePropertyUtils.printPropertiesArray(filteredPropertyList);
+        RemovePropertyUtils.printPropertiesArray(filteredPropertyList); //O(n)
     }
-
+    //O(k)
     private static String getPropertyStatusQuery(Scanner input) {
         System.out.println("\nAre you looking for a properties for sale or rent?");
         System.out.println("(r - for rent / s - for sale / -999 to not include parameter)");
@@ -41,7 +41,7 @@ public class SearchPropertyUtil {
         }
         return "";
     }
-    
+    //O(k)
     private static String getPropertyTypeQuery(Scanner input) {
         System.out.println("\nWhat type of property are you looking for?");
         System.out.println("(1 - for an apartment / 2 - for a penhouse / 3 - for a private home / -999 to not include parameter");
@@ -67,7 +67,7 @@ public class SearchPropertyUtil {
         }
         return "";
     }
-
+    //O(k)
     private static int getRoomAmountQuery(Scanner input) {
         System.out.println("\nHow many rooms would you like the property to have?");
         System.out.println("or enter '-999' to not include parameter in the search");
@@ -85,7 +85,7 @@ public class SearchPropertyUtil {
         }
         return 0;
     }
-    
+    //O(k)
     private static int getPriceQuery(Scanner input) {
         System.out.println("or enter '-999' to not include parameter in the search");
         boolean validInput = false;
@@ -102,7 +102,7 @@ public class SearchPropertyUtil {
         }
         return 0;
     }
-
+    //O(n^3)
     private static Property[] filteredList(Property[] properties,String statusQuery, String typeQuery, int roomAmount, int maxPrice, int minPrice) {
         int count = 0;
         for (int i = 0; i < properties.length; i++) {
@@ -122,7 +122,7 @@ public class SearchPropertyUtil {
         }
         return filteredPropertyList;
     }
-
+    //O(n)
     private static boolean matchFinder(Property[] properties,String statusQuery, String typeQuery, int roomAmount, int maxPrice, int minPrice) {
         for (int i = 0; i < properties.length; i++) {
             if (!statusQuery.equals("-999")) {

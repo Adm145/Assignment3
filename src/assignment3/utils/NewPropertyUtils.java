@@ -34,7 +34,7 @@ public class NewPropertyUtils {
         Property newProperty = new Property(cityName, streetName, amountOfRooms, propertyPrice, propertyType, propertyStatus, propertyNumber, propertyFloor, loggedUser);
         return newProperty;
     }
-
+    //O(n)
     private static String[] getCityStreets(City[] cities, String cityName) {
         for (City city : cities) {
             if (city.getCityName().equalsIgnoreCase(cityName)) {
@@ -43,7 +43,7 @@ public class NewPropertyUtils {
         }
         return null;
     }
-
+    //O(n * k)
     private static String cityHandler(Scanner input, City[] cities) {
         String cityInput = "";
         String[] cityNames = new String[cities.length];
@@ -55,10 +55,11 @@ public class NewPropertyUtils {
         while (!cityFound) {
             System.out.println("Available cities:");
             for (String name : cityNames) {
-                System.out.print(name + ", ");
+                System.out.print(name + "\n");
             }
             System.out.println("\n" + "Enter a city from the list above:");
             cityInput = input.next();
+            cityInput = cityInput.substring(0, 1).toUpperCase() + cityInput.substring(1);
             
             for (int i = 0; i < cityNames.length; i++) {
                 if (cityNames[i].equalsIgnoreCase(cityInput)) { 
@@ -72,19 +73,21 @@ public class NewPropertyUtils {
         } 
         return cityInput;
     }
-
+    //O(n * k)
     private static String streetsHandler(Scanner input, City[] cities, String cityInput) {
         String streetInput = "";
         String[] streets = getCityStreets(cities, cityInput);
-
+        
         boolean streetFound = false;
         while (!streetFound) {
-            System.out.println("\n" + "Available streets in " + cityInput + ":");
+            streetInput = input.nextLine();
+            System.out.println("\nAvailable streets in " + cityInput + ":");
             for (String name : streets) {
-                System.out.print(name + ", ");
+                System.out.print(name + "\n");
             }
             System.out.println("\nEnter a street from the list above:");
             streetInput = input.nextLine();
+            streetInput = streetInput.substring(0, 1).toUpperCase() + streetInput.substring(1);
 
             for (int i = 0; i < streets.length; i++) {
                 if (streets[i].equalsIgnoreCase(streetInput)) { 
@@ -93,14 +96,14 @@ public class NewPropertyUtils {
                 }
             }   
             if (!streetFound) {
-                System.out.println("Error: '" + streetInput + "' is not in our system. Please try again.");
+                System.out.println("\nError: '" + streetInput + "' is not in our system. Please try again.");
             }
         }
         return streetInput;
     }
-
+    //O(k)
     private static String propertyTypeHandler(Scanner input) {
-        System.out.println("Please choose the property type:");
+        System.out.println("\nPlease choose the property type:");
         System.out.println("1 - for an apartment, 2 - for a penthouse or 3 - for a private house");
         boolean validValue = false;
         while (!validValue) {
@@ -120,9 +123,9 @@ public class NewPropertyUtils {
         }
         return "";
     }
-
+    //O(k)
     private static int numberedValuesHandler(Scanner input, String parameterName) {
-        System.out.println("Please enter the " + parameterName + " of the property:");
+        System.out.println("\nPlease enter the " + parameterName + " of the property:");
         boolean validInput = false;
         while (!validInput) {
             int parameterValue = input.nextInt();
@@ -135,9 +138,9 @@ public class NewPropertyUtils {
         }
         return 0;
     }
-
+    //O(k)
     private static boolean propertyStatusHandler(Scanner input) {
-        System.out.println("Is the property for sale or rent? (s/r)");
+        System.out.println("\nIs the property for sale or rent? (s/r)");
         boolean validInput = false;
         while (!validInput) {
             String statusInput = input.next();

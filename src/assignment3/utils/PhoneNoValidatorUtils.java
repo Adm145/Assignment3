@@ -2,7 +2,7 @@ package assignment3.utils;
 import java.util.Scanner;
 
 public class PhoneNoValidatorUtils {
-
+    //O(n * k)
     public static String setPhoneNo(Scanner input) {
         String phoneNo = "";
         boolean phoneNoValid = false;
@@ -19,7 +19,7 @@ public class PhoneNoValidatorUtils {
         }
         return phoneNo;
     }
-
+    //O(n)
     public static boolean isPhoneNoValid(String phoneNo) {
         boolean containsOnlyDigits = doesPhoneNoContainOnlyDigits(phoneNo);
         boolean lengthValid = isPhoneNoLengthValid(phoneNo);
@@ -29,7 +29,7 @@ public class PhoneNoValidatorUtils {
         }
         return false;
     }
-
+    //O(n)
     private static boolean doesPhoneNoContainOnlyDigits(String phoneNo) {
         for (int i = 0; i < phoneNo.length(); i++) {
             if (!Character.isDigit(phoneNo.charAt(i))) {
@@ -38,14 +38,14 @@ public class PhoneNoValidatorUtils {
         }
         return true;
     }
-
+    //O(1)
     private static boolean isPhoneNoLengthValid(String phoneNo) {
         if (phoneNo.length() == 10) {
             return true;
         }
         return false;
     }
-
+    //O(1)
     private static boolean isPhoneNoFormatValid(String phoneNo) {
         if (phoneNo.substring(0, 2).equals("05")) {
             return true;

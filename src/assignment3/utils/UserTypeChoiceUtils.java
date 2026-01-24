@@ -2,6 +2,7 @@ package assignment3.utils;
 import java.util.Scanner;
 
 public class UserTypeChoiceUtils {
+    //O(k)
     public static boolean setIsRealtor(Scanner input) {
         System.out.println("\nWould you like to register as a realtor? (y/n)");
         boolean isRealtor = false;

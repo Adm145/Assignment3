@@ -10,7 +10,7 @@ public class main {
 
         input.close();
     }
-
+    //O(1)
     public static void launchApp(RealEstate app, Scanner input) {
         MenuUtils.mainMenu(input, app);
     }

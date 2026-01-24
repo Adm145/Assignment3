@@ -16,17 +16,17 @@ public class MenuUtils {
             if (choice == 1) {
                 if (app.createUser(input)) {
                     System.out.println("User created successfully.");
-                    System.out.println("Would you like to log in to your new account? (t/f).");
+                    System.out.println("Would you like to log in to your new account? (y/n).");
                     boolean validInput = false;
                     while (!validInput) {
                         String loginNow = input.next();
-                        if (loginNow.equalsIgnoreCase("t")) {
+                        if (loginNow.equalsIgnoreCase("y")) {
                             loginUser(input, app);
                             validInput = true;
-                        } else if (loginNow.equalsIgnoreCase("f")) {
+                        } else if (loginNow.equalsIgnoreCase("n")) {
                             validInput = true;
                         } else {
-                            System.out.println("Invalid input. Please enter 't' or 'f'.");
+                            System.out.println("Invalid input. Please enter 'y' or 'n'.");
                         }
                     }
                 }
@@ -52,42 +52,44 @@ public class MenuUtils {
     }
 
     public static void secondaryMenu(Scanner input, User loggedUser, RealEstate app) {
-        System.out.println(
-            "\n" + "Please choose an option:" + "\n" +
-            "1 - Advertise a new property" + "\n" +
-            "2 - Remove property advertisement" + "\n" +
-            "3 - Display all properties" + "\n" +
-            "4 - Display all properties advertised by you" + "\n" +
-            "5 - Search for a property" + "\n" +
-            "6 - Log out and return to main menu" + "\n" +
-            "Enter your choice (1-6):"
-        );
         boolean validInput = false;
         for (;!validInput;) {
+            System.out.println(
+                "\n" + "Please choose an option:" + "\n" +
+                "1 - Advertise a new property" + "\n" +
+                "2 - Remove property advertisement" + "\n" +
+                "3 - Display all properties" + "\n" +
+                "4 - Display all properties advertised by you" + "\n" +
+                "5 - Search for a property" + "\n" +
+                "6 - Log out and return to main menu" + "\n" +
+                "Enter your choice (1-6):"
+            );
             int userChoice = input.nextInt();
             if (userChoice == 1) {
                 boolean result = app.postNewProperty(loggedUser ,input);
                 if (result) {
                     System.out.println("\nProperty advertised successfully by : " + loggedUser.getUserName());
-                    validInput = true;
+                    continue;
                 } else {
                     System.out.println("\nFailed to advertise property.");
                     System.out.println("Please ensure you meet all the requirements and try again.");
                 }
             } else if (userChoice == 2) {
                 app.removeProperty(loggedUser, input);
-                validInput = true;
+                continue;
             } else if (userChoice == 3) {
                 app.printAllProperties();
-                validInput = true;
+                continue;
             } else if (userChoice == 4) {
                 app.printPropertiesByUser(loggedUser);
-                validInput = true;
+                continue;
             } else if (userChoice == 5) {
                 app.search(input);
-                validInput = true;
+                continue;
             } else if (userChoice == 6) {
-                //! log out and return to main menu
+                loggedUser = null;
+                validInput = true;
+                System.out.println("Successfully logged out!\n");
             } else {
                 System.out.println("Invalid choice. Please enter 1, 2, 3, 4, 5, or 6.");
             }

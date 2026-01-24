@@ -4,7 +4,7 @@ import java.util.Scanner;
 import assignment3.User;
 
 public class UsernameAvailabilityValidator {
-
+    //O(n * k)
     public static String setUserName(Scanner input, User[] users) {
         String userName = "";
         boolean userNameTaken = true;
@@ -20,7 +20,7 @@ public class UsernameAvailabilityValidator {
         }
         return userName;
     }
-
+    //O(n)
     private static boolean isUserNameTaken(String userName, User[] users) {
         for(int i = 0; i < users.length; i++) {
             if(users[i].getUserName().equals(userName)) {

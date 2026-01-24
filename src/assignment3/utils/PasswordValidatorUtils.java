@@ -2,7 +2,7 @@ package assignment3.utils;
 import java.util.Scanner;
 
 public class PasswordValidatorUtils {
-
+    //O(n * k)
     public static String setPassword(Scanner input) {
         String password = "";
         boolean passwordValid = false;
@@ -18,7 +18,7 @@ public class PasswordValidatorUtils {
         }
         return password;
     }
-
+    //O(n)
     private static boolean isPasswordValid(String password) {
         boolean lengthValid = isPasswordLengthValid(password);
         boolean containsDigit = doesPasswordContainDigit(password);
@@ -28,14 +28,14 @@ public class PasswordValidatorUtils {
         }
         return false;
     }
-
+    //O(1)
     private static boolean isPasswordLengthValid(String password) {
         if (password.length() >= 5) {
             return true;
         }
         return false;
-    }
-
+    }    
+    //O(n)
     private static boolean doesPasswordContainDigit(String password) {
         for (int i = 0; i < password.length(); i++) {
             if (Character.isDigit(password.charAt(i))) {
@@ -43,8 +43,8 @@ public class PasswordValidatorUtils {
             }
         }
         return false;
-    }
-
+    }    
+    //O(n)
     private static boolean doesPasswordContainSpecialChar(String password) {
         String specialChars = "$%_";
         for (int i = 0; i < password.length(); i++) {
