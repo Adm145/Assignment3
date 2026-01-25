@@ -15,7 +15,10 @@ public class SearchPropertyUtil {
         System.out.println("Please enter your minimum price?");
         int minPriceQuery = getPriceQuery(Input);
         Property[] filteredPropertyList =  filteredList(properties, propertyStatusQuery, propertyTypeQuery, roomAmountQuery, maxPriceQuery, minPriceQuery);
-        
+        if (filteredPropertyList.length == 0) {
+            System.out.println("No properties found matching your criteria.");
+            return;
+        }
         RemovePropertyUtils.printPropertiesArray(filteredPropertyList); //O(n)
     }
     //O(k)
