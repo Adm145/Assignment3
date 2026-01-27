@@ -109,7 +109,7 @@ public class SearchPropertyUtil {
     private static Property[] filteredList(Property[] properties,String statusQuery, String typeQuery, int roomAmount, int maxPrice, int minPrice) {
         int count = 0;
         for (int i = 0; i < properties.length; i++) {
-            boolean isMatch = matchFinder(properties, statusQuery, typeQuery, roomAmount, maxPrice, minPrice);
+            boolean isMatch = matchFinder(properties[i], statusQuery, typeQuery, roomAmount, maxPrice, minPrice);
             if (isMatch) {
                 count++;
             }
@@ -117,7 +117,7 @@ public class SearchPropertyUtil {
         Property[] filteredPropertyList = new Property[count];
         int index = 0;
         for (int i = 0; i < properties.length; i++) {
-            boolean isMatch = matchFinder(properties, statusQuery, typeQuery, roomAmount, maxPrice, minPrice);
+            boolean isMatch = matchFinder(properties[i], statusQuery, typeQuery, roomAmount, maxPrice, minPrice);
             if (isMatch) {
                 filteredPropertyList[index] = properties[i];
                 index++;
@@ -126,34 +126,32 @@ public class SearchPropertyUtil {
         return filteredPropertyList;
     }
     //O(n)
-    private static boolean matchFinder(Property[] properties,String statusQuery, String typeQuery, int roomAmount, int maxPrice, int minPrice) {
-        for (int i = 0; i < properties.length; i++) {
+    private static boolean matchFinder(Property property,String statusQuery, String typeQuery, int roomAmount, int maxPrice, int minPrice) {
             if (!statusQuery.equals("-999")) {
-                if (!statusQuery.equalsIgnoreCase(properties[i].getPropertyStatus())) {
+                if (!statusQuery.equalsIgnoreCase(property.getPropertyStatus())) {
                     return false;
                 }
             }
             if (!typeQuery.equals("-999")) {
-                if (!typeQuery.equalsIgnoreCase(properties[i].getPropertyType())) {
+                if (!typeQuery.equalsIgnoreCase(property.getPropertyType())) {
                     return false;
                 }
             }
             if (roomAmount != -999) {
-                if (roomAmount != properties[i].getAmountOfRooms()) {
+                if (roomAmount != property.getAmountOfRooms()) {
                     return false;
                 }
             }
             if (minPrice != -999) {
-                if (properties[i].getPrice() < minPrice) {
+                if (property.getPrice() < minPrice) {
                     return false;
                 }
             }
             if (maxPrice != -999) {
-                if (properties[i].getPrice() > maxPrice) {
+                if (property.getPrice() > maxPrice) {
                     return false;
                 }
             }
-        }
         return true;
     }
 
